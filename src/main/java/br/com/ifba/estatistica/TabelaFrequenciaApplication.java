@@ -1,4 +1,4 @@
-package br.com.estatistica.tabelafrequencia;
+package br.com.ifba.estatistica;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
