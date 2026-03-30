@@ -7,64 +7,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Análise de Frequência - ADS</h2>
-    <p>Insira os números separados por vírgula:</p>
-    <textarea id="dados" placeholder="Ex: 1, 2, 3, 4, 5, 6, 7..."></textarea>
-    
-    <div class="buttons">
-        <button onclick="calcular('discreta')">Tabela Discreta</button>
-        <button onclick="calcular('continua')">Tabela Contínua (Sturges)</button>
-    </div>
+    <header>
+        <h2>Análise de Frequência - ADS</h2>
+    </header>
 
-    <div id="resultado"></div>
-
-    <script>
-        async function calcular(tipo) {
-            const input = document.getElementById('dados').value;
-            if (!input) { alert("Por favor, insira os dados!"); return; }
-
-            const lista = input.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+    <main>
+        <section>
+            <p>Insira os números separados por vírgula:</p>
+            <textarea id="dados" placeholder="Ex: 1, 2, 3, 4, 5, 6, 7..."></textarea>
             
-            try {
-                const response = await fetch(`/api/frequencia/${tipo}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(lista)
-                });
-                
-                if (!response.ok) throw new Error("Erro na API");
+            <div class="buttons">
+                <button onclick="calcular('discreta')">Tabela Discreta</button>
+                <button onclick="calcular('continua')">Tabela Contínua (Sturges)</button>
+            </div>
+        </section>
 
-                const data = await response.json();
-                renderizarTabela(data, tipo);
-            } catch (err) {
-                document.getElementById('resultado').innerHTML = `<p style="color:red">Erro ao processar: ${err.message}</p>`;
-            }
-        }
+        <section id="resultado">
+            </section>
+    </main>
 
-        function renderizarTabela(data, tipo) {
-            let titulo = tipo === 'discreta' ? "Tabela de Frequência Discreta" : "Tabela de Frequência Contínua";
-            let html = `<h3>${titulo}</h3>`;
-            html += `<table>
-                        <tr>
-                            <th>${tipo === 'discreta' ? 'Valor' : 'Classe'}</th>
-                            <th>FA (Absoluta)</th>
-                            <th>FR% (Relativa)</th>
-                            <th>FAc (Acumulada)</th>
-                            <th>Frc% (Relativa Acumulada)</th>
-                        </tr>`;
-            
-            data.forEach(row => {
-                html += `<tr>
-                            <td><b>${row.classe}</b></td>
-                            <td>${row.fa}</td>
-                            <td>${row.fr.toFixed(2)}%</td>
-                            <td>${row.fac}</td>
-                            <td>${row.frc.toFixed(2)}%</td>
-                         </tr>`;
-            });
-            
-            document.getElementById('resultado').innerHTML = html + '</table>';
-        }
-    </script>
+    <footer>
+        <p>&copy; 2026 IFBA Irecê - Projeto Estatística ADS</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
